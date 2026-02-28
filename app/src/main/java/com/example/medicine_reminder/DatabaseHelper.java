@@ -1,6 +1,11 @@
 package com.example.medicine_reminder;
 
-public class DatabaseHelper {
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+public class DatabaseHelper extends SQLiteOpenHelper {
+
     private static final String DB_NAME = "medicine.db";
     private static final int DB_VERSION = 1;
 
