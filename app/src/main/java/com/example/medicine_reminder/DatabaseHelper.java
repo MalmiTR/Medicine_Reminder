@@ -28,25 +28,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "user_id INTEGER," +
                 "name TEXT," +
                 "dosage TEXT," +
-                "time TEXT)");
-
-        String CREATE_TABLE = "CREATE TABLE medicines (" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "user_id INTEGER, " +
-                "name TEXT, " +
-                "dosage TEXT, " +
-                "description TEXT, " +
-                "reminder_time TEXT)";
-
-        db.execSQL(CREATE_TABLE);
+                "description TEXT," +
+                "reminder_time TEXT)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS users");
-        db.execSQL("DROP TABLE IF EXISTS medicines");
-        onCreate(db);
-
         db.execSQL("DROP TABLE IF EXISTS medicines");
         onCreate(db);
     }
@@ -93,6 +81,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         cursor.close();
         return "";
+    }
+    public Cursor getMedicinesByUser(int userId){
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery(
+                "SELECT * FROM medicines WHERE user_id=?",
+                new String[]{String.valueOf(userId)});
+    }
+    public void deleteMedicine(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete("medicines", "id=?",
+                new String[]{String.valueOf(id)});
+    }
+    public void updateMedicine(int id, String name,
+                               String dosage, String desc){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("name", name);
+        values.put("dosage", dosage);
+        values.put("description", desc);
+
+        db.update("medicines", values,
+                "id=?", new String[]{String.valueOf(id)});
     }
 
 }
