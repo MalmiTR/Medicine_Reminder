@@ -45,7 +45,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void goRegister(View v) {
-        // Temporarily comment out until RegisterActivity is created
-        // startActivity(new Intent(this, RegisterActivity.class));
+        startActivity(new Intent(this, RegisterActivity.class));
     }
 }
