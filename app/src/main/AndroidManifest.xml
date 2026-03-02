@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Medicine_Reminder">
         <activity
+            android:name=".DashboardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MedicineListActivity"
+            android:exported="false" />
+        <activity
             android:name=".LoginActivity"
             android:exported="false" />
         <activity
