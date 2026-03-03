@@ -11,10 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Medicine_Reminder">
-        <activity
-            android:name=".RegisterActivity"
-            android:exported="false" />
 
+        <!-- LOGIN = LAUNCHER -->
         <activity
             android:name=".LoginActivity"
             android:exported="true">
@@ -23,6 +21,28 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".RegisterActivity"
+            android:exported="false" />
+
+        <activity
+
+            android:name=".LoginActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+            android:name=".DashboardActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".MedicineListActivity"
+            android:exported="false" />
+
 
         <activity
             android:name=".MainActivity"
