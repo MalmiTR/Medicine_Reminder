@@ -41,11 +41,36 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <Button
-        android:text="Register"
-        android:onClick="goRegister"
-        android:minHeight="48dp"
+    <!-- This empty view pushes bottom content down -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <!-- Bottom Layout -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"/>
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="16dp">
+
+        <TextView
+            android:text="Not Registered?"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:layout_width="114dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:onClick="goRegister"
+            android:text="Register"
+            android:background="#FFFFFF"
+            android:textColor="#000000"
+            android:minHeight="0dp"/>
+
+    </LinearLayout>
+
 </LinearLayout>
