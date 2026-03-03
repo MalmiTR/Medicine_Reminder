@@ -42,10 +42,18 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Invalid login", Toast.LENGTH_SHORT).show();
         }
+        if (c.moveToFirst()) {
+            int userId = c.getInt(0);
+
+            Intent i = new Intent(this, DashboardActivity.class);
+            i.putExtra("USER_ID", userId);
+            startActivity(i);
+            finish();
+        }
     }
 
+
     public void goRegister(View v) {
-        // Temporarily comment out until RegisterActivity is created
-        // startActivity(new Intent(this, RegisterActivity.class));
+        startActivity(new Intent(this, RegisterActivity.class));
     }
 }
