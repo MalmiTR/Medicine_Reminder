@@ -34,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if (c.moveToFirst()) {
             int userId = c.getInt(0);
-            // Temporarily comment out until HomeActivity is created
+            //Temporarily comment out until HomeActivity is created
             // Intent i = new Intent(this, HomeActivity.class);
             // i.putExtra("USER_ID", userId);
             // startActivity(i);
