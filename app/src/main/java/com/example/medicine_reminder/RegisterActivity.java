@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    EditText etUser, etPass;
+    EditText etUser, etEmail, etPass;
     DatabaseHelper db;
 
     @Override
@@ -20,6 +20,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         etUser = findViewById(R.id.username);
+        etEmail = findViewById(R.id.email);
         etPass = findViewById(R.id.password);
 
         db = new DatabaseHelper(this);
@@ -31,13 +32,16 @@ public class RegisterActivity extends AppCompatActivity {
 
         ContentValues cv = new ContentValues();
         cv.put("username", etUser.getText().toString());
+        cv.put("email", etEmail.getText().toString());
         cv.put("password", etPass.getText().toString());
 
         long result = database.insert("users", null, cv);
 
-        if (result != -1) {
-            Toast.makeText(this, "Registered", Toast.LENGTH_SHORT).show();
+        if(result != -1){
+            Toast.makeText(this,"Registered Successfully",Toast.LENGTH_SHORT).show();
             finish();
+        }else{
+            Toast.makeText(this,"Registration Failed",Toast.LENGTH_SHORT).show();
         }
     }
 }
