@@ -21,6 +21,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE users (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "username TEXT UNIQUE," +
+                "email TEXT," +
                 "password TEXT)");
 
         db.execSQL("CREATE TABLE medicines (" +
