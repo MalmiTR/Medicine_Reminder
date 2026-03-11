@@ -29,9 +29,9 @@ public class DashboardActivity extends AppCompatActivity {
         tvWelcome.setText("Welcome 👋");
 
         btnAdd.setOnClickListener(v -> {
-            Intent i = new Intent(this, AddMedicineActivity.class); // Sithu screen
-            i.putExtra("USER_ID", userId);
-            startActivity(i);
+//            Intent i = new Intent(this, AddMedicineActivity.class); // Sithu screen
+//            i.putExtra("USER_ID", userId);
+//            startActivity(i);
         });
 
         btnView.setOnClickListener(v -> {
