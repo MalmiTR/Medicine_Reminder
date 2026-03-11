@@ -12,7 +12,6 @@
         android:textColor="#2C3E50"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:layout_marginBottom="24dp"
         android:layout_gravity="center"/>
 
 
@@ -44,13 +43,6 @@
         android:text="Save Medicine"
         android:textColor="#FFFFFF"
         android:backgroundTint="#4CAF50"/>
-
-    <include
-        layout="@layout/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"/>
-
 
 
 </LinearLayout>
