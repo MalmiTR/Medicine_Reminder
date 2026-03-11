@@ -7,6 +7,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 public class DashboardActivity extends AppCompatActivity {
 
     TextView tvWelcome;
@@ -42,6 +44,26 @@ public class DashboardActivity extends AppCompatActivity {
 
         btnLogout.setOnClickListener(v -> {
             finish();
+        });
+        BottomNavigationView nav = findViewById(R.id.bottom_navigation);
+
+        nav.setOnItemSelectedListener(item -> {
+
+            if(item.getItemId() == R.id.nav_dashboard){
+                return true;
+            }
+
+            if(item.getItemId() == R.id.nav_add){
+                startActivity(new Intent(this, AddMedicineActivity.class));
+                return true;
+            }
+
+            if(item.getItemId() == R.id.nav_list){
+                startActivity(new Intent(this, MedicineListActivity.class));
+                return true;
+            }
+
+            return false;
         });
     }
 }

@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.medicine_reminder.DatabaseHelper;
 import com.example.medicine_reminder.R;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 //import com.example.medicine_reminder.SetReminderActivity;
 
 public class AddMedicineActivity extends AppCompatActivity {
@@ -48,12 +49,38 @@ public class AddMedicineActivity extends AppCompatActivity {
             if(id > 0){
                 Toast.makeText(this, "Medicine Saved!", Toast.LENGTH_SHORT).show();
 
-                //Intent intent = new Intent(this, SetReminderActivity.class);
-                //intent.putExtra("MED_ID", (int) id);
-                //startActivity(intent);
+                Intent intent = new Intent(this, SetReminderActivity.class);
+                intent.putExtra("MED_ID", (int) id);
+                startActivity(intent);
 
                 finish();
             }
         });
+
+        BottomNavigationView bottomNavigationView =
+                findViewById(R.id.bottom_navigation);
+
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+
+            if(item.getItemId() == R.id.nav_dashboard){
+                startActivity(new Intent(this, DashboardActivity.class));
+                return true;
+            } if(item.getItemId() == R.id.nav_dashboard){
+                return true;
+            }
+
+            if(item.getItemId() == R.id.nav_add){
+                startActivity(new Intent(this, AddMedicineActivity.class));
+                return true;
+            }
+
+            if(item.getItemId() == R.id.nav_list){
+                startActivity(new Intent(this, MedicineListActivity.class));
+                return true;
+            }
+
+            return false;
+        });
+
     }
 }
