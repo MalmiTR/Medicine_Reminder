@@ -103,7 +103,7 @@ Main screens implemented in the application:
 
 | Name | Registration No | Index No | Contribution |
 |-----|-----|-----|-----|
-| S.D. Yatiwella | ICT/2022/010 | 5618 | User Authentication (Add Medicine screen, Reminder setup functionality|
+| S.D. Yatiwella | ICT/2022/010 | 5618 | Add Medicine screen, Reminder setup functionality|
 | M.T. Rathnayake | ICT/2022/114 | 5716 | User Authentication (Login, Registration), Session handling |
 | J.M.D.T. Abesingha | ICT/2022/116 | 5718 | Dashboard development, View/Edit/Delete Medicine screen, Navigation bar implementation |
 
