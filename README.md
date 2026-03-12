@@ -121,3 +121,8 @@ This project demonstrates:
 - GitHub collaboration and version control
 
 ---
+
+## Submission
+
+This project is submitted as part of the **ICT3214 Mobile Application Development group project**.  
+The GitHub repository link is provided through the LMS submission portal.
