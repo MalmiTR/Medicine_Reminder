@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "medicine.db";
-    private static final int DB_VERSION = 2;
+    private static final int DB_VERSION = 3;
 
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -28,7 +28,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "user_id INTEGER," +
                 "name TEXT," +
                 "dosage TEXT," +
-                "description TEXT," +
+                "description TEXT)");
+
+        db.execSQL("CREATE TABLE reminders (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "medicine_id INTEGER," +
                 "reminder_time TEXT)");
     }
 
@@ -36,6 +40,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS users");
         db.execSQL("DROP TABLE IF EXISTS medicines");
+        db.execSQL("DROP TABLE IF EXISTS reminders");
         onCreate(db);
     }
 
@@ -60,12 +65,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.insert("medicines", null, values);
     }
 
-    public void saveReminderTime(int medId, int hour, int minute){
+    public long addReminder(int medId, int hour, int minute){
         SQLiteDatabase db = this.getWritableDatabase();
-        String time = hour + ":" + minute;
+        String time = String.format("%02d:%02d", hour, minute);
+        ContentValues values = new ContentValues();
+        values.put("medicine_id", medId);
+        values.put("reminder_time", time);
+        return db.insert("reminders", null, values);
+    }
+
+    public void updateReminder(int reminderId, int hour, int minute) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String time = String.format("%02d:%02d", hour, minute);
         ContentValues values = new ContentValues();
         values.put("reminder_time", time);
-        db.update("medicines", values, "id=?", new String[]{String.valueOf(medId)});
+        db.update("reminders", values, "id=?", new String[]{String.valueOf(reminderId)});
+    }
+
+    public Cursor getReminders(int medId){
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT id AS _id, reminder_time FROM reminders WHERE medicine_id=?", new String[]{String.valueOf(medId)});
+    }
+
+    public void deleteReminder(int reminderId){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete("reminders", "id=?", new String[]{String.valueOf(reminderId)});
     }
 
     public String getMedicineName(int medId){
@@ -87,12 +111,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public Cursor getMedicinesByUser(int userId){
         SQLiteDatabase db = this.getReadableDatabase();
-        return db.rawQuery("SELECT id AS _id, name, dosage, description, reminder_time FROM medicines WHERE user_id=?", new String[]{String.valueOf(userId)});
+        return db.rawQuery("SELECT id AS _id, name, dosage, description FROM medicines WHERE user_id=?", new String[]{String.valueOf(userId)});
     }
 
     public void deleteMedicine(int id){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete("medicines", "id=?", new String[]{String.valueOf(id)});
+        db.delete("reminders", "medicine_id=?", new String[]{String.valueOf(id)});
     }
 
     public void updateMedicine(int id, String name, String dosage, String desc){

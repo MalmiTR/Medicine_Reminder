@@ -23,6 +23,7 @@ public class MedicineListActivity extends AppCompatActivity {
     ListView listView;
     DatabaseHelper db;
     int userId;
+    MedicineAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,10 @@ public class MedicineListActivity extends AppCompatActivity {
         db = new DatabaseHelper(this);
 
         userId = getIntent().getIntExtra("USER_ID", -1);
+
+        // Initialize adapter with null cursor
+        adapter = new MedicineAdapter(this, null);
+        listView.setAdapter(adapter);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.nav_list);
@@ -59,13 +64,12 @@ public class MedicineListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        loadMedicines(); // Refresh list when returning from Edit screen
+        loadMedicines();
     }
 
     private void loadMedicines() {
         Cursor cursor = db.getMedicinesByUser(userId);
-        MedicineAdapter adapter = new MedicineAdapter(this, cursor);
-        listView.setAdapter(adapter);
+        adapter.swapCursor(cursor);
     }
 
     private class MedicineAdapter extends CursorAdapter {
@@ -84,22 +88,29 @@ public class MedicineListActivity extends AppCompatActivity {
             TextView tvDosage = view.findViewById(R.id.tvDosage);
             TextView tvDesc = view.findViewById(R.id.tvDesc);
             Button btnEdit = view.findViewById(R.id.btnEdit);
+            Button btnReminder = view.findViewById(R.id.btnReminder);
             Button btnDelete = view.findViewById(R.id.btnDelete);
 
-            int id = cursor.getInt(cursor.getColumnIndexOrThrow("_id"));
-            String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
-            String dosage = cursor.getString(cursor.getColumnIndexOrThrow("dosage"));
-            String desc = cursor.getString(cursor.getColumnIndexOrThrow("description"));
+            final int id = cursor.getInt(cursor.getColumnIndexOrThrow("_id"));
+            final String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
+            final String dosage = cursor.getString(cursor.getColumnIndexOrThrow("dosage"));
+            final String desc = cursor.getString(cursor.getColumnIndexOrThrow("description"));
 
             tvName.setText(name);
             tvDosage.setText(dosage);
             tvDesc.setText(desc);
 
             btnEdit.setOnClickListener(v -> {
-                Intent intent = new Intent(context, AddMedicineActivity.class);
+                Intent intent = new Intent(MedicineListActivity.this, AddMedicineActivity.class);
                 intent.putExtra("USER_ID", userId);
                 intent.putExtra("MED_ID", id);
-                context.startActivity(intent);
+                startActivity(intent);
+            });
+
+            btnReminder.setOnClickListener(v -> {
+                Intent intent = new Intent(MedicineListActivity.this, SetReminderActivity.class);
+                intent.putExtra("MED_ID", id);
+                startActivity(intent);
             });
 
             btnDelete.setOnClickListener(v -> showDeleteConfirm(id));
@@ -108,12 +119,12 @@ public class MedicineListActivity extends AppCompatActivity {
 
     private void showDeleteConfirm(int id) {
         new AlertDialog.Builder(this)
-                .setTitle("Delete")
-                .setMessage("Delete this medicine?")
-                .setPositiveButton("Yes", (dialog, which) -> {
+                .setTitle("Delete Medicine")
+                .setMessage("Are you sure you want to delete this medicine?")
+                .setPositiveButton("Delete", (dialog, which) -> {
                     db.deleteMedicine(id);
-                    loadMedicines();
-                    Toast.makeText(this, "Deleted", Toast.LENGTH_SHORT).show();
+                    loadMedicines(); // Refresh the list
+                    Toast.makeText(this, "Medicine deleted", Toast.LENGTH_SHORT).show();
                 })
                 .setNegativeButton("No", null)
                 .show();
