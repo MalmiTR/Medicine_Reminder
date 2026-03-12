@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "medicine.db";
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 2;
 
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -17,7 +17,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
         db.execSQL("CREATE TABLE users (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "username TEXT UNIQUE," +
@@ -41,70 +40,56 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public long addMedicine(int userId, String name, String dosage, String desc){
-
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-
         values.put("user_id", userId);
         values.put("name", name);
         values.put("dosage", dosage);
         values.put("description", desc);
-
         return db.insert("medicines", null, values);
     }
 
     public void saveReminderTime(int medId, int hour, int minute){
-
         SQLiteDatabase db = this.getWritableDatabase();
-
         String time = hour + ":" + minute;
-
         ContentValues values = new ContentValues();
         values.put("reminder_time", time);
-
-        db.update("medicines", values, "id=?",
-                new String[]{String.valueOf(medId)});
+        db.update("medicines", values, "id=?", new String[]{String.valueOf(medId)});
     }
 
     public String getMedicineName(int medId){
-
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(
-                "SELECT name FROM medicines WHERE id=?",
-                new String[]{String.valueOf(medId)}
-        );
-
+        Cursor cursor = db.rawQuery("SELECT name FROM medicines WHERE id=?", new String[]{String.valueOf(medId)});
         if(cursor.moveToFirst()){
             String name = cursor.getString(0);
             cursor.close();
             return name;
         }
-
         cursor.close();
         return "";
     }
+
+    public Cursor getMedicine(int medId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT * FROM medicines WHERE id=?", new String[]{String.valueOf(medId)});
+    }
+
     public Cursor getMedicinesByUser(int userId){
         SQLiteDatabase db = this.getReadableDatabase();
-        return db.rawQuery(
-                "SELECT * FROM medicines WHERE user_id=?",
-                new String[]{String.valueOf(userId)});
+        return db.rawQuery("SELECT id AS _id, name, dosage, description, reminder_time FROM medicines WHERE user_id=?", new String[]{String.valueOf(userId)});
     }
+
     public void deleteMedicine(int id){
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete("medicines", "id=?",
-                new String[]{String.valueOf(id)});
+        db.delete("medicines", "id=?", new String[]{String.valueOf(id)});
     }
-    public void updateMedicine(int id, String name,
-                               String dosage, String desc){
 
+    public void updateMedicine(int id, String name, String dosage, String desc){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("name", name);
         values.put("dosage", dosage);
         values.put("description", desc);
-
-        db.update("medicines", values,
-                "id=?", new String[]{String.valueOf(id)});
+        db.update("medicines", values, "id=?", new String[]{String.valueOf(id)});
     }
-
 }

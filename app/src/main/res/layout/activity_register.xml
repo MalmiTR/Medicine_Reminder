@@ -16,9 +16,12 @@
 
     <EditText
         android:id="@+id/username"
-        android:hint="Entetr Username"
+        android:hint="Enter Username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:padding="12dp"
+        android:inputType="textPersonName"
         android:layout_marginBottom="10dp"/>
 
     <EditText
@@ -26,12 +29,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="example@gmail.com"
+        android:minHeight="48dp"
+        android:padding="12dp"
         android:inputType="textEmailAddress"
         android:layout_marginBottom="10dp"/>
 
     <EditText
         android:id="@+id/password"
         android:hint="Enter Password"
+        android:minHeight="48dp"
+        android:padding="12dp"
         android:inputType="textPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
@@ -45,6 +52,7 @@
         android:onClick="register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:minHeight="48dp"
         android:textColor="#FFFFFF"
         android:backgroundTint="#4CAF50"/>
 </LinearLayout>
