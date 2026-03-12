@@ -44,6 +44,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    public long registerUser(String username, String email, String password){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("username", username);
+        values.put("email", email);   // VERY IMPORTANT
+        values.put("password", password);
+
+        return db.insert("users", null, values);
+    }
     public long addMedicine(int userId, String name, String dosage, String desc){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
