@@ -1,11 +1,11 @@
 package com.example.medicine_reminder;
 
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-import android.database.sqlite.SQLiteDatabase;
-import android.content.ContentValues;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -27,21 +27,32 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void register(View v) {
+        String username = etUser.getText().toString().trim();
+        String email = etEmail.getText().toString().trim();
+        String password = etPass.getText().toString().trim();
+
+        if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         SQLiteDatabase database = db.getWritableDatabase();
 
         ContentValues cv = new ContentValues();
-        cv.put("username", etUser.getText().toString());
-        cv.put("email", etEmail.getText().toString());
-        cv.put("password", etPass.getText().toString());
+        cv.put("username", username);
+        cv.put("email", email);
+        cv.put("password", password);
 
-        long result = database.insert("users", null, cv);
-
-        if(result != -1){
-            Toast.makeText(this,"Registered Successfully",Toast.LENGTH_SHORT).show();
-            finish();
-        }else{
-            Toast.makeText(this,"Registration Failed",Toast.LENGTH_SHORT).show();
+        try {
+            long result = database.insert("users", null, cv);
+            if (result != -1) {
+                Toast.makeText(this, "Registered Successfully", Toast.LENGTH_SHORT).show();
+                finish();
+            } else {
+                Toast.makeText(this, "Registration Failed: Username might already exist", Toast.LENGTH_LONG).show();
+            }
+        } catch (Exception e) {
+            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 }

@@ -31,9 +31,9 @@ public class DashboardActivity extends AppCompatActivity {
         tvWelcome.setText("Welcome 👋");
 
         btnAdd.setOnClickListener(v -> {
-//            Intent i = new Intent(this, AddMedicineActivity.class); // Sithu screen
-//            i.putExtra("USER_ID", userId);
-//            startActivity(i);
+            Intent i = new Intent(this, AddMedicineActivity.class);
+            i.putExtra("USER_ID", userId);
+            startActivity(i);
         });
 
         btnView.setOnClickListener(v -> {
@@ -43,23 +43,28 @@ public class DashboardActivity extends AppCompatActivity {
         });
 
         btnLogout.setOnClickListener(v -> {
+            Intent i = new Intent(this, LoginActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(i);
             finish();
         });
+
         BottomNavigationView nav = findViewById(R.id.bottom_navigation);
 
         nav.setOnItemSelectedListener(item -> {
 
-            if(item.getItemId() == R.id.nav_dashboard){
+            int itemId = item.getItemId();
+            if (itemId == R.id.nav_dashboard) {
                 return true;
-            }
-
-            if(item.getItemId() == R.id.nav_add){
-                startActivity(new Intent(this, AddMedicineActivity.class));
+            } else if (itemId == R.id.nav_add) {
+                Intent i = new Intent(this, AddMedicineActivity.class);
+                i.putExtra("USER_ID", userId);
+                startActivity(i);
                 return true;
-            }
-
-            if(item.getItemId() == R.id.nav_list){
-                startActivity(new Intent(this, MedicineListActivity.class));
+            } else if (itemId == R.id.nav_list) {
+                Intent i = new Intent(this, MedicineListActivity.class);
+                i.putExtra("USER_ID", userId);
+                startActivity(i);
                 return true;
             }
 

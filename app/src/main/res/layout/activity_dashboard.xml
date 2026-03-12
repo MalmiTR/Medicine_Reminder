@@ -7,52 +7,56 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="24dp">
-
-        <TextView
-            android:id="@+id/tvWelcome"
-            android:text="Welcome"
-            android:textSize="28sp"
-            android:textStyle="bold"
-            android:textColor="#333"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="40dp"
-            android:layout_gravity="center"/>
+        android:padding="24dp"
+        android:layout_above="@+id/bottomNavWrapper"> <TextView
+        android:id="@+id/tvWelcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="40dp"
+        android:text="Welcome"
+        android:textColor="#333"
+        android:textSize="28sp"
+        android:textStyle="bold" />
 
         <Button
             android:id="@+id/btnAddMedicine"
-            android:text="➕ Add Medicine"
-            android:backgroundTint="#4CAF50"
-            android:textColor="@android:color/white"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginBottom="20dp"
+            android:backgroundTint="#4CAF50"
+            android:text="➕ Add Medicine"
+            android:textColor="@android:color/white" />
 
         <Button
             android:id="@+id/btnViewMedicine"
-            android:text="📋 View Medicines"
-            android:backgroundTint="#2196F3"
-            android:textColor="@android:color/white"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginBottom="20dp"
+            android:backgroundTint="#2196F3"
+            android:text="📋 View Medicines"
+            android:textColor="@android:color/white" />
 
         <Button
             android:id="@+id/btnLogout"
-            android:text="🚪 Logout"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
             android:backgroundTint="#F44336"
-            android:textColor="@android:color/white"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"/>
-
-        <include
-            layout="@layout/bottom_navigation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"/>
+            android:text="🚪 Logout"
+            android:textColor="@android:color/white" />
 
     </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/bottomNavWrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <include layout="@layout/bottom_navigation" />
+
+    </FrameLayout>
+
 </RelativeLayout>
